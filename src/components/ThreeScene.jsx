@@ -87,6 +87,10 @@ export default function ReflectiveObject() {
         cameraRef.current.updateProjectionMatrix();
         rendererRef.current.setSize(window.innerWidth, window.innerHeight);
       }
+      if (window.innerWidth < 768) {
+        cameraRef.current.position.z = 65;
+        cameraRef.current.updateProjectionMatrix();
+      }
     };
     window.addEventListener("resize", handleResize);
 
@@ -105,8 +109,10 @@ export default function ReflectiveObject() {
       ref={containerRef}
       style={{
         position: "absolute",
+        right: 0,
+        top: 0,
         width: "100%",
-        height: "100%",
+        height: "50%",
         zIndex: -1,
       }}
     />
