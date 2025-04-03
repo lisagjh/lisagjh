@@ -60,6 +60,7 @@ p {
 }
 
 button {
+  font-size: 1rem;
   padding: 1rem 0.5rem;
   border: none;
   border-radius: 2px;
@@ -95,6 +96,33 @@ li::marker {
 .section_full-width {
   padding: 1.5rem;
   width: 100vw;
+}
+
+.simple-button {
+  padding: 1rem 0.5rem;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 0 1px 0px var(--dark);
+
+  background: linear-gradient(
+    99deg,
+    var(--secondary) 0%,
+    var(--secondary) 50%,
+    var(--bg) 50%
+  );
+  background-size: 220%;
+  background-position: right top;
+  transition: 0.25s ease-out;
+}
+
+.simple-button:hover {
+  color: var(--dark);
+  background-position: left bottom;
+  box-shadow: 0 0 1px 0px var(--bg);
+}
+
+.simple-button:active {
+  scale: 0.98;
 }
 
 /* color classes */
