@@ -7,6 +7,7 @@ import Scene from "./ThreeScene";
 </div>
 
 <section class="section_full-width">
+  <h1 class="visually-hidden sr-only">Lisa</h1>
   <svg
     aria-label="Lisa's name"
     class="name"
@@ -121,8 +122,8 @@ import Scene from "./ThreeScene";
   const button = document.querySelector(".scroll-next-section");
   const aboutSection = document.querySelector(".about");
 
-  button.addEventListener("click", function () {
-    aboutSection.scrollIntoView({
+  button?.addEventListener("click", function () {
+    aboutSection?.scrollIntoView({
       behavior: "smooth", // Smooth scroll
       block: "start", // Scroll to the top of the section
     });
@@ -130,6 +131,14 @@ import Scene from "./ThreeScene";
 </script>
 
 <style>
+  h1 {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+  }
+
   .section_full-width {
     display: flex;
     flex-direction: column;

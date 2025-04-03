@@ -14,7 +14,7 @@ const allPosts = await getCollection("projects");
     {
       allPosts.map((post) => (
         <li>
-          <a href={`/posts/${post.id}`}>
+          <a href={`/posts/${post.id}`} class="heading-font">
             <Image
               src={post.data.image.url}
               alt={post.data.image.alt}
@@ -54,16 +54,16 @@ const allPosts = await getCollection("projects");
   }
 
   li {
+    background-color: var(--white);
     display: flex;
     flex-direction: column;
     width: fit-content;
     width: 15rem;
-    aspect-ratio: 1 / 1;
     list-style: none;
     padding: 1.5rem 1rem;
     border-radius: 0.15rem;
     position: relative;
-    box-shadow: 0 0 1px 0px var(--secondary);
+    box-shadow: 0 0 1px 0px var(--dark);
 
   }
 
@@ -80,6 +80,7 @@ const allPosts = await getCollection("projects");
   img {
     height: 10.2rem;
     width: 15.1rem;
+    max-width: 100%;
     object-fit: cover;
     aspect-ratio: 1 / 1.6;
     box-shadow: 0 0 2px 0px var(--dark);
