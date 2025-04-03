@@ -40,6 +40,13 @@ body {
   background-size: 30%;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 h1,
 h2,
 h3,
@@ -83,10 +90,6 @@ h4 {
   h4 {
     font-size: 2rem;
   }
-}
-
-.heading-font {
-  font-family: var(--heading-font);
 }
 
 p {
@@ -142,9 +145,14 @@ li::marker {
   position: absolute;
 }
 
+.heading-font {
+  font-family: var(--heading-font);
+}
+
 .section_full-width {
   padding: 1.5rem;
   width: 100vw;
+  max-width: 75rem;
 }
 
 .simple-button {
