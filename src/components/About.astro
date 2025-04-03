@@ -1,27 +1,18 @@
 <section class="about">
-  <h2>About</h2>
+  <h2>About Me</h2>
   <div class="wrapper">
-    <p>Hi! Like I said: I’m Lisa, an aspiring frontend developer.</p>
     <p>
-      I’m currently working towards getting my degree in <span>
-        I’m currently working towards getting my degree in Frontend Development
-        & Design @ HVA I’m currently working towards getting my degree in
-      </span>. During this course I’ve developed strong skills in HTML, CSS and
-      JavaScript. I’ve got experience building dynamic websites with
-      <span> Node.js</span>, <span>Express</span> and <span>EJS</span>. I’ve
-      also worked with modern frameworks like SvelteKit and Astro.
+      Hi! I’m Lisa, an aspiring frontend developer passionate about creating
+      intuitive and visually appealing web experiences.
     </p>
     <p>
-      Beyond coding, I have a solid foundation in web design principles,
-      ensuring that my work is not only functional but also visually appealing
-      and user-friendly. I focus on crafting intuitive, accessible, and engaging
-      interfaces that enhance the user experience.
+      With a strong foundation in HTML, CSS, and JavaScript, I’ve built dynamic
+      websites using Node.js, Express, and EJS, while also exploring modern
+      frameworks like SvelteKit and Astro.
     </p>
     <p>
-      I’m ambitious, curious and love diving into new and unfamiliar
-      technologies. I enjoy challenging myself, solving problems, and exploring
-      different solutions. I have explored creative coding with p5.js and
-      Three.js this way, and am excited to learn more.
+      I love crafting accessible, high-performance websites and enjoy diving
+      into creative coding from time to time!
     </p>
   </div>
 </section>
@@ -51,5 +42,24 @@
     height: 1rem;
     vertical-align: middle;
     margin-right: 0.5rem;
+  }
+
+  @supports (animation-timeline: view()) {
+    p, h2 {
+      animation: animate-in-and-out linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 20%;
+    }
+
+    @keyframes animate-in-and-out {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   }
 </style>

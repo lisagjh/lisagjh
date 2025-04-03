@@ -70,8 +70,8 @@ export default function ReflectiveObject() {
 
         // Rotate the object for effect
         if (meshRef.current) {
-          meshRef.current.rotation.x += 0.005;
-          meshRef.current.rotation.y += 0.005;
+          meshRef.current.rotation.x += 0.0015;
+          meshRef.current.rotation.y += 0.0015;
         }
 
         renderer.render(scene, camera);
@@ -86,10 +86,6 @@ export default function ReflectiveObject() {
         cameraRef.current.aspect = window.innerWidth / window.innerHeight;
         cameraRef.current.updateProjectionMatrix();
         rendererRef.current.setSize(window.innerWidth, window.innerHeight);
-      }
-      if (window.innerWidth < 768) {
-        cameraRef.current.position.z = 65;
-        cameraRef.current.updateProjectionMatrix();
       }
     };
     window.addEventListener("resize", handleResize);
