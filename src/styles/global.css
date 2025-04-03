@@ -17,9 +17,6 @@
   --bg: #fcfaf8;
   --text: #101010;
 
-  --primary-one: #3b3a39;
-  --primary-two: #f194b6;
-
   --primary: #64c1d8;
   --secondary: #eeb384;
   --tertiary: #a6bdcb;
@@ -64,18 +61,18 @@ button {
   padding: 1rem 0.5rem;
   border: none;
   border-radius: 2px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   box-shadow: 0 0 1px 0px var(--dark);
 
   background: linear-gradient(
-    90deg,
-    var(--secondary) 0%,
-    var(--secondary) 50%,
-    var(--bg) 50%
+    99deg,
+    var(--primary) 0%,
+    var(--primary) 50%,
+    var(--secondary) 50%
   );
-  background-size: 200%;
+  background-size: 220%;
   background-position: right;
-  transition: 0.25s ease-out;
+  transition: 0.3s ease-out;
 }
 
 button:hover {
@@ -102,14 +99,8 @@ li::marker {
   padding: 1rem 0.5rem;
   border: none;
   border-radius: 2px;
-  box-shadow: 0 0 1px 0px var(--dark);
+  box-shadow: 0 0 1px 0px var(--secondary);
 
-  background: linear-gradient(
-    99deg,
-    var(--secondary) 0%,
-    var(--secondary) 50%,
-    var(--bg) 50%
-  );
   background-size: 220%;
   background-position: right top;
   transition: 0.25s ease-out;
@@ -118,7 +109,7 @@ li::marker {
 .simple-button:hover {
   color: var(--dark);
   background-position: left bottom;
-  box-shadow: 0 0 1px 0px var(--bg);
+  box-shadow: 0 0 1px 0px var(--secondary);
 }
 
 .simple-button:active {

@@ -36,7 +36,7 @@ export default function ReflectiveObject() {
     // Load HDRI for environment map (Kiara 1 Dawn from Polyhaven)
     const hdrLoader = new RGBELoader();
     hdrLoader.setDataType(THREE.HalfFloatType); // HDR image with half-float type
-    hdrLoader.load("/kiara_1_dawn_1k.hdr", (hdrEquirect) => {
+    hdrLoader.load("/industrial_sunset_02_puresky_1k.hdr", (hdrEquirect) => {
       hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
 
       // Set the environment map to the scene (for lighting and reflections)
@@ -45,13 +45,13 @@ export default function ReflectiveObject() {
       // Create material with HDRI environment map
       const material = new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
-        metalness: 0.01,
+        metalness: 0.05,
         roughness: 0.01,
         envMap: hdrEquirect,
-        envMapIntensity: 0.5,
+        envMapIntensity: 0.65,
         clearcoat: 1.0,
         clearcoatRoughness: 0.05,
-        opacity: 0.75,
+        opacity: 0.95,
         transparent: true,
       });
 

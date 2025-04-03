@@ -42,7 +42,7 @@ import Scene from "./ThreeScene";
       doing an internship, and working on getting my Frontend Development &
       Design degree.
     </p>
-    <button class="simple-button">About Me</button>
+    <button class="simple-button scroll-next-section">Lets Go!</button>
   </div>
 
   <!-- <svg
@@ -117,6 +117,18 @@ import Scene from "./ThreeScene";
   </svg> -->
 </section>
 
+<script>
+  const button = document.querySelector(".scroll-next-section");
+  const aboutSection = document.querySelector(".about");
+
+  button.addEventListener("click", function () {
+    aboutSection.scrollIntoView({
+      behavior: "smooth", // Smooth scroll
+      block: "start", // Scroll to the top of the section
+    });
+  });
+</script>
+
 <style>
   .section_full-width {
     display: flex;
@@ -133,6 +145,8 @@ import Scene from "./ThreeScene";
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
     gap: 1rem;
     z-index: 10;
   }
