@@ -20,7 +20,7 @@
 
 # 👩‍💻 About Me
 
-📚 Sitting on the couch with a good book and a cup of tea is my ideal friday night - especially a good fantasy, sci-fi or mystery!
+📚 I enjoy reading a good book - especially a good fantasy, mystery and the occasional scifi!
 
 👩‍🔬 I love to experiment with code and exploring unfamiliar technologies and tools
 
