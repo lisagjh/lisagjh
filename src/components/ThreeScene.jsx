@@ -26,37 +26,82 @@ export default function ReflectiveObject() {
     camera.position.z = 5;
     cameraRef.current = camera;
 
-    // Set up renderer
-    const renderer = new THREE.WebGLRenderer();
+    // Set up renderer with higher quality settings
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      logarithmicDepthBuffer: true,
+    });
+    renderer.setPixelRatio(window.devicePixelRatio); // For high DPI displays
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // Transparent background
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Load HDRI for environment map (Kiara 1 Dawn from Polyhaven)
+    // Add ambient and directional light for enhanced visibility
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+
+    // Load HDRI for environment map
+    // Using a try-catch to handle potential loading issues
     const hdrLoader = new RGBELoader();
-    hdrLoader.setDataType(THREE.HalfFloatType); // HDR image with half-float type
-    hdrLoader.load("/industrial_sunset_02_puresky_1k.hdr", (hdrEquirect) => {
-      hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
+    hdrLoader.setDataType(THREE.HalfFloatType);
 
-      // Set the environment map to the scene (for lighting and reflections)
-      scene.environment = hdrEquirect;
+    try {
+      // Fallback to a simple environment if HDR fails to load
+      const defaultEnvMap = new THREE.CubeTextureLoader()
+        .setPath("https://threejs.org/examples/textures/cube/MilkyWay/")
+        .load([
+          "dark-s_px.jpg",
+          "dark-s_nx.jpg",
+          "dark-s_py.jpg",
+          "dark-s_ny.jpg",
+          "dark-s_pz.jpg",
+          "dark-s_nz.jpg",
+        ]);
 
-      // Create material with HDRI environment map
+      scene.environment = defaultEnvMap;
+
+      // Try loading the HDR
+      hdrLoader.load(
+        "/industrial_sunset_02_puresky_1k.hdr",
+        (hdrEquirect) => {
+          hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
+          scene.environment = hdrEquirect;
+        },
+        undefined,
+        (error) => {
+          console.warn("HDR loading failed, using fallback environment", error);
+        }
+      );
+
+      // Reduce polygon count to a balanced level
+      const geometry = new THREE.TorusKnotGeometry(
+        1, // radius
+        0.4, // tube radius
+        128, // tubular segments (reduced from 256)
+        16 // radial segments (reduced from 32)
+      );
+
       const material = new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
-        metalness: 0.05,
-        roughness: 0.01,
-        envMap: hdrEquirect,
-        envMapIntensity: 0.65,
+        metalness: 0.9, // More metallic for better reflections
+        roughness: 0.05, // Less roughness for smoother appearance
+        envMapIntensity: 1.0, // Stronger reflections
         clearcoat: 1.0,
-        clearcoatRoughness: 0.05,
-        opacity: 0.95,
+        clearcoatRoughness: 0.03,
+        opacity: 1.0,
         transparent: true,
       });
 
-      // Create geometry for the object (Torus Knot in this case)
-      const geometry = new THREE.TorusKnotGeometry(1, 0.4, 100, 8); // Customize the radius and tube for shape
+      const torusGeometry = geometry;
+
       const mesh = new THREE.Mesh(geometry, material);
       scene.add(mesh);
       meshRef.current = mesh;
@@ -64,21 +109,29 @@ export default function ReflectiveObject() {
       // Position the camera
       camera.position.z = 5;
 
-      // Animation loop
+      let needsUpdate = true;
+
+      // Remove the incorrect onChange call
+
       const animate = () => {
         requestAnimationFrame(animate);
 
-        // Rotate the object for effect
         if (meshRef.current) {
           meshRef.current.rotation.x += 0.0015;
           meshRef.current.rotation.y += 0.0015;
+          needsUpdate = true; // Mark for render
         }
 
-        renderer.render(scene, camera);
+        // Only render when needed
+        if (needsUpdate) {
+          renderer.render(scene, camera);
+          needsUpdate = false;
+        }
       };
-
       animate();
-    });
+    } catch (error) {
+      console.error("Error setting up scene:", error);
+    }
 
     // Handle window resize
     const handleResize = () => {
@@ -96,6 +149,8 @@ export default function ReflectiveObject() {
       if (rendererRef.current && containerRef.current) {
         containerRef.current.removeChild(rendererRef.current.domElement);
       }
+      if (geometry) geometry.dispose();
+      if (material) material.dispose();
       renderer.dispose();
     };
   }, []);
@@ -108,7 +163,7 @@ export default function ReflectiveObject() {
         right: 0,
         top: 0,
         width: "100%",
-        height: "50%",
+        height: "100%", // Increased from 50% to full height
         zIndex: -1,
       }}
     />
