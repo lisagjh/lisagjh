@@ -30,6 +30,6 @@
 
 ## 🔍 Find me ..
 
-🌐 My Website - WIP
+🌐 [My Website - WIP](www.lisavanderhoorn.nl)
 
 💼 [LinkedIn](www.linkedin.com/in/lisavanderhoorn)
