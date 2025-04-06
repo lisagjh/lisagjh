@@ -32,7 +32,7 @@ export default function ReflectiveObject() {
       alpha: true,
       logarithmicDepthBuffer: true,
     });
-    renderer.setPixelRatio(window.devicePixelRatio); // For high DPI displays
+    renderer.setPixelRatio(window.devicePixelRatio); 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // Transparent background
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -54,21 +54,6 @@ export default function ReflectiveObject() {
     hdrLoader.setDataType(THREE.HalfFloatType);
 
     try {
-      // Fallback to a simple environment if HDR fails to load
-      const defaultEnvMap = new THREE.CubeTextureLoader()
-        .setPath("https://threejs.org/examples/textures/cube/MilkyWay/")
-        .load([
-          "dark-s_px.jpg",
-          "dark-s_nx.jpg",
-          "dark-s_py.jpg",
-          "dark-s_ny.jpg",
-          "dark-s_pz.jpg",
-          "dark-s_nz.jpg",
-        ]);
-
-      scene.environment = defaultEnvMap;
-
-      // Try loading the HDR
       hdrLoader.load(
         "/industrial_sunset_02_puresky_1k.hdr",
         (hdrEquirect) => {
@@ -81,7 +66,6 @@ export default function ReflectiveObject() {
         }
       );
 
-      // Reduce polygon count to a balanced level
       const geometry = new THREE.TorusKnotGeometry(
         1, // radius
         0.4, // tube radius
@@ -90,13 +74,13 @@ export default function ReflectiveObject() {
       );
 
       const material = new THREE.MeshPhysicalMaterial({
-        color: 0xffffff,
-        metalness: 0.9, // More metallic for better reflections
-        roughness: 0.05, // Less roughness for smoother appearance
+        color: 0xEEB384,
+        metalness: 0.2, // More metallic for better reflections
+        roughness: 0.01, // Less roughness for smoother appearance
         envMapIntensity: 1.0, // Stronger reflections
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.03,
-        opacity: 1.0,
+        clearcoat: .5,
+        clearcoatRoughness: .5,
+        opacity: .95,
         transparent: true,
       });
 
