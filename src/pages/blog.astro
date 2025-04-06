@@ -6,7 +6,7 @@ import BlogPost from "../components/BlogPost.astro";
 const allPosts = await getCollection("projects");
 ---
 
-<Layout>
+<Layout pageTitle="Lisa's Blog">
   <ul>
     {
       allPosts.map((post) => (

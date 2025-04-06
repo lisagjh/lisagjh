@@ -18,7 +18,7 @@ const relatedPostsData = allPosts
   }));
 ---
 
-<BaseLayout>
+<BaseLayout pageTitle={`Project - ${frontmatter.title}`}>
   <section class="markdown-post">
     <a class="back-home" href="/">Back to home</a>
     <h2>{frontmatter.title}</h2>
