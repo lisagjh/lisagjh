@@ -1,4 +1,4 @@
-@supports (animation-timeline: view()) {
+/* @supports (animation-timeline: view()) {
     .section_full-width p,
     .section_full-width h2 {
       animation: animate-in-and-out linear both;
@@ -16,4 +16,4 @@
         transform: translateY(0);
       }
     }
-  }
+  } */
