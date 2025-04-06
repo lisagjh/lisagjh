@@ -1,7 +1,3 @@
----
-
----
-
 <script>
   const classes = [
     "standard",
@@ -19,17 +15,16 @@
   if (button) {
     button.addEventListener("click", function () {
       let randomClass;
-
       // Keep picking a new class until it's different from the last one
       do {
         randomClass = classes[Math.floor(Math.random() * classes.length)];
       } while (randomClass === lastClass);
 
-      // Remove previously applied classes
-      document.body.classList.remove(...classes);
+      // Remove previously applied classes from the <html> element (which is :root)
+      document.documentElement.classList.remove(...classes);
 
-      // Apply the new class
-      document.body.classList.add(randomClass);
+      // Apply the new class to the <html> element
+      document.documentElement.classList.add(randomClass);
 
       // Update lastClass to track the last applied class
       lastClass = randomClass;

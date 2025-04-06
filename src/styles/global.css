@@ -1,8 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 @font-face {
   font-family: "Grand Bageur";
   src: url("/src/assets/fonts/grand-bageur.woff2") format("woff2");
+} */
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans Italic";
+  src: url("/fonts/OpenSans-Italic.woff2") format("woff2");
+  font-display: swap;
 }
 
 :root {
@@ -13,6 +25,9 @@
   --heading-font: arial, helvetica, sans-serif;
   --body-font: arial, helvetica, sans-serif;
 
+  --heading-font: "Open Sans", sans-serif;
+  --body-font: "Open Sans", sans-serif;
+
   --white: #fcfaf8;
   --black: #101010;
   --dark: #303030;
@@ -21,9 +36,21 @@
   --bg: #fcfaf8;
   --text: #101010;
 
-  --primary: #64c1d8;
-  --secondary: #eeb384;
-  --tertiary: #a6bdcb;
+  --primary: hsl(192deg 60% 62%);
+  --secondary: hsl(27deg 75% 72%);
+  --tertiary: #baa6cb;
+}
+
+@supports (color: hsl(from white h s l)) {
+  :root {
+    /* accents using relative color syntax */
+    --primary-light: hsl(from var(--primary) h s 90%);
+    --primary-dark: hsl(from var(--primary) h s calc(l - 20%));
+    --secondary-light: hsl(from var(--secondary) h s calc(l + 20%));
+    --secondary-dark: hsl(from var(--secondary) h s calc(l - 20%));
+    --tertiary-light: hsl(from var(--tertiary) h s calc(l + 20%));
+    --tertiary-dark: hsl(from var(--tertiary) h s calc(l - 20%));
+  }
 }
 
 * {
@@ -49,6 +76,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 h1,
@@ -60,6 +88,7 @@ h6 {
   font-family: var(--heading-font);
   font-weight: 400;
   letter-spacing: 0px;
+  line-height: 1.25;
 }
 
 h1 {
@@ -105,6 +134,8 @@ p {
 
 a {
   color: var(--black);
+  text-decoration-color: var(--primary);
+  text-decoration-thickness: 2px;
 }
 
 button {
@@ -154,7 +185,39 @@ li::marker {
   font-family: var(--heading-font);
 }
 
+a.back-home {
+  display: block;
+  box-shadow: 0 0 0px 2px var(--secondary);
+  background-color: var(--white);
+  border: 2px solid var(--white);
+  text-decoration: none;
+  color: var(--dark);
+  width: fit-content;
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+
+a.back-home:hover {
+  background-color: var(--secondary);
+  opacity: 1;
+}
+
+a.back-home:active {
+  scale: 0.98;
+}
+
 .section_full-width {
+  padding: 1.5rem;
+  width: 100vw;
+  max-width: 75rem;
+}
+
+.markdown-post {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   padding: 1.5rem;
   width: 100vw;
   max-width: 75rem;

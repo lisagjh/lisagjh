@@ -140,10 +140,13 @@ import Scene from "./ThreeScene";
       );
 
       const heightScale = 1 + scrollPercentage * 0.5;
+      const moveDown = scrollPercentage * 2;
 
-      svgPaths.forEach((path) => {
-        path.style.transform = `scaleY(${heightScale})`;
-      });
+      // svgPaths.forEach((path) => {
+      //   path.style.transform = `scaleY(${heightScale}) translateY(${moveDown}rem)`;
+      // });
+
+      nameSvg.style.transform = `scaleY(${heightScale}) translateY(${moveDown}rem)`;
     });
   });
 </script>
@@ -179,6 +182,9 @@ import Scene from "./ThreeScene";
     height: fit-content;
     max-width: 30rem;
     z-index: 10;
+    transform-origin: center bottom;
+    transition: 0.25s ease-in-out;
+    overflow: visible;
   }
 
   svg.name path {
