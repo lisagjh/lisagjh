@@ -133,11 +133,6 @@ import Scene from "./ThreeScene";
     const nameSvg = document.querySelector("svg.name");
     const svgPaths = nameSvg.querySelectorAll("path");
 
-    svgPaths.forEach((path) => {
-      path.style.transition = "transform 0.2s ease-out";
-      path.style.transformOrigin = "center bottom";
-    });
-
     window.addEventListener("scroll", function () {
       const scrollPercentage = Math.min(
         window.scrollY / (window.innerHeight * 0.5),
@@ -184,6 +179,11 @@ import Scene from "./ThreeScene";
     height: fit-content;
     max-width: 30rem;
     z-index: 10;
+  }
+
+  svg.name path {
+    transform-origin: center bottom;
+    transition: 0.25s ease-in-out;
   }
 
   button {
