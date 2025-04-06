@@ -10,14 +10,16 @@ const { pageTitle } = Astro.props;
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
       content="Lisa van der Hoorn is an aspiring frontend developer, focused on creating accessible websites. Lisa has experience with modern frontend technologies, and fundamental knowledge of UI/UX design."
     />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="stylesheet" href="/src/styles/animations.css" />
+    <meta name="generator" content={Astro.generator} />
     <ClientRouter />
     <title>{pageTitle}</title>
   </head>
