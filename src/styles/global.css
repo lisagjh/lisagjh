@@ -46,8 +46,8 @@
     /* accents using relative color syntax */
     --primary-light: hsl(from var(--primary) h s 90%);
     --primary-dark: hsl(from var(--primary) h s calc(l - 20%));
-    --secondary-light: hsl(from var(--secondary) h s calc(l + 20%));
-    --secondary-dark: hsl(from var(--secondary) h s calc(l - 20%));
+    --secondary-light: hsl(from var(--secondary) h s 92%);
+    --secondary-dark: hsl(from var(--secondary) h s 30%);
     --tertiary-light: hsl(from var(--tertiary) h s calc(l + 20%));
     --tertiary-dark: hsl(from var(--tertiary) h s calc(l - 20%));
   }
@@ -170,6 +170,16 @@ button:active {
 
 li::marker {
   font-size: 0.75rem;
+}
+
+code {
+  display: inline-block;
+  font-size: 1rem;
+  color: var(--secondary-dark);
+  background-color: var(--secondary-light);
+  padding: .25rem .5rem;
+  border-radius: 2px;
+  box-shadow: 0 0 2px var(--secondary);
 }
 
 /* classes */
