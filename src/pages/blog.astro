@@ -6,7 +6,7 @@ import BlogPost from "../components/BlogPost.astro";
 const allPosts = await getCollection("projects");
 ---
 
-<Layout pageTitle="Lisa's Blog">
+<Layou pageTitle="Lisa's Blog">
   <ul>
     {
       allPosts.map((post) => (
@@ -14,4 +14,4 @@ const allPosts = await getCollection("projects");
       ))
     }
   </ul>
-</Layout>
+</Layou
