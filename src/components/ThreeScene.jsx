@@ -49,15 +49,15 @@ export default function ReflectiveObject() {
     scene.add(directionalLight);
 
     // Add point lights with different colors for iridescent effect
-    const pointLight1 = new THREE.PointLight(0x64C1D8, 0.8);
+    const pointLight1 = new THREE.PointLight(0x64c1d8, 0.8);
     pointLight1.position.set(3, 3, 3);
     scene.add(pointLight1);
 
-    const pointLight2 = new THREE.PointLight(0xEEB384, .8);
+    const pointLight2 = new THREE.PointLight(0xeeb384, 0.8);
     pointLight2.position.set(-3, 2, -3);
     scene.add(pointLight2);
 
-    const pointLight3 = new THREE.PointLight(0x64C1D8, .8);
+    const pointLight3 = new THREE.PointLight(0x64c1d8, 0.8);
     pointLight3.position.set(0, -3, 3);
     scene.add(pointLight3);
 
