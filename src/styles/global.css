@@ -1,32 +1,9 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-
-@font-face {
-  font-family: "Grand Bageur";
-  src: url("/src/assets/fonts/grand-bageur.woff2") format("woff2");
-} */
-
-@font-face {
-  font-family: "Open Sans";
-  src: url("/fonts/OpenSans.woff2") format("woff2");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Open Sans Italic";
-  src: url("/fonts/OpenSans-Italic.woff2") format("woff2");
-  font-display: swap;
-}
+/* /* @import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap"); */
 
 :root {
   --body-font: "Geist", sans-serif;
   --heading-font: "Grand Bageur", sans-serif;
   --heading-font: "Tinos", serif;
-
-  --heading-font: arial, helvetica, sans-serif;
-  --body-font: arial, helvetica, sans-serif;
-
-  --heading-font: "Open Sans", sans-serif;
-  --body-font: "Open Sans", sans-serif;
 
   --white: #fcfaf8;
   --black: #101010;

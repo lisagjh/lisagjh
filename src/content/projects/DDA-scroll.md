@@ -4,9 +4,9 @@ title: "DDA - 3D Scroll Animation"
 date: "November 2024"
 livesite: "https://spike-one-lisa.vercel.app/"
 description: "Creative Spike focused on using your creativitiy to create a scroll driven animation."
-image:
-  url: "https://i.ibb.co/67s0SsGn/Schermafbeelding-2025-04-03-131041.png"
-  alt: "Screenshot of the homepage of my version of the Dutch Digital Agencies website."
+image: 
+  url: "/work-showcase/dda-scroll.webp"
+  alt: "Mockup of my creative spike focused on implementing scroll driven animations in the Dutch Digital Agencies website,"
 notes: "This project uses an API that is still being used and worked on/with by other students. This means that this project may not work anymore."
 tags: ["Sveltekit", "FDND", "ThreeJS"]
 relatedPosts:
