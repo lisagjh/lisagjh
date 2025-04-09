@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 
 export default function ReflectiveObject() {
   const containerRef = useRef(null);
@@ -8,7 +7,6 @@ export default function ReflectiveObject() {
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const meshRef = useRef(null);
-  const cubeCameraRef = useRef(null);
   const geometryRef = useRef(null);
   const materialRef = useRef(null);
 
@@ -61,74 +59,42 @@ export default function ReflectiveObject() {
     pointLight3.position.set(0, -3, 3);
     scene.add(pointLight3);
 
-    // Cube render target + CubeCamera
-    const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(512, {
-      format: THREE.RGBAFormat,
-      generateMipmaps: true,
-      minFilter: THREE.LinearMipmapLinearFilter,
+    // Create geometry - keep your torus knot
+    const geometry = new THREE.TorusKnotGeometry(1, 0.4, 128, 16);
+
+    // Create holographic material with no HDR environment map
+    const material = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      metalness: 0.01,
+      roughness: 0.5,
+      envMap: null, // Remove the HDR environment map
+      envMapIntensity: 0.5, // Optional, if you want to simulate a simple reflection
+      clearcoat: 0.1,
+      clearcoatRoughness: 0.1,
+      transparent: false,
+      transmission: 0.6,
+      thickness: 0.5,
+      ior: 5.8,
+      iridescence: 10.0,
+      iridescenceIOR: 10.5,
+      iridescenceThicknessRange: [100, 400],
+      sheenColor: new THREE.Color(0xaaddff),
+      sheen: 0.1,
+      specularIntensity: 0.1,
+      specularColor: new THREE.Color(0xffffff),
     });
-    const cubeCamera = new THREE.CubeCamera(0.1, 10, cubeRenderTarget);
-    scene.add(cubeCamera);
-    cubeCameraRef.current = cubeCamera;
 
-    // Load HDR environment map
-    const hdrLoader = new RGBELoader();
-    hdrLoader.setDataType(THREE.HalfFloatType);
-    hdrLoader.load(
-      "/industrial_sunset_02_puresky_1k.hdr",
-      (hdrEquirect) => {
-        hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
-        scene.environment = hdrEquirect;
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+    meshRef.current = mesh;
 
-        // Create geometry - keep your torus knot
-        const geometry = new THREE.TorusKnotGeometry(1, 0.4, 128, 16);
-
-        // Create holographic material
-        const material = new THREE.MeshPhysicalMaterial({
-          color: 0xffffff,
-          metalness: 0.01,
-          roughness: 0.5,
-          envMap: cubeRenderTarget.texture,
-          envMapIntensity: 1,
-          clearcoat: 0.1,
-          clearcoatRoughness: 0.1,
-          transparent: false,
-          transmission: 0.6,
-          thickness: 0.5,
-          ior: 5.8,
-          iridescence: 10.0,
-          iridescenceIOR: 10.5,
-          iridescenceThicknessRange: [100, 400],
-          sheenColor: new THREE.Color(0xaaddff),
-          sheen: 0.1,
-          specularIntensity: 0.1,
-          specularColor: new THREE.Color(0xffffff),
-        });
-
-        const mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
-        meshRef.current = mesh;
-
-        geometryRef.current = geometry;
-        materialRef.current = material;
-
-        animate(); // start animation after everything is ready
-      },
-      undefined,
-      (error) => {
-        console.warn("HDR loading failed, using fallback environment", error);
-      }
-    );
+    geometryRef.current = geometry;
+    materialRef.current = material;
 
     const animate = () => {
       requestAnimationFrame(animate);
 
-      if (meshRef.current && cubeCameraRef.current) {
-        // Hide mesh to avoid self-reflection
-        meshRef.current.visible = false;
-        cubeCameraRef.current.update(renderer, scene);
-        meshRef.current.visible = true;
-
+      if (meshRef.current) {
         // Animate
         meshRef.current.rotation.x += 0.0015;
         meshRef.current.rotation.y += 0.0015;
@@ -142,6 +108,8 @@ export default function ReflectiveObject() {
 
       renderer.render(scene, camera);
     };
+
+    animate(); // start animation after everything is ready
 
     const handleResize = () => {
       if (cameraRef.current && rendererRef.current) {
