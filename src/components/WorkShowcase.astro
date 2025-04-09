@@ -16,7 +16,7 @@ const allPosts = await getCollection("projects");
       allPosts.map((post) => (
         <li>
           <a href={`/posts/${post.id}`} class="heading-font">
-            <img src={post.data.image.url} alt={post.data.image.alt} />
+            <img src={post.data.image.url} alt={post.data.image.alt} loading="lazy" />
             {post.data.title}
           </a>
         </li>
