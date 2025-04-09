@@ -1,10 +1,8 @@
 ---
-import Scene from "./ThreeScene";
+import StarScene from "../components/display/StarScene.astro";
 ---
 
-<div id="spline-container" class="spline">
-  <Scene client:only="react" />
-</div>
+<StarScene />
 
 <section class="section_full-width">
   <h1 class="visually-hidden sr-only">Lisa</h1>
@@ -131,7 +129,6 @@ import Scene from "./ThreeScene";
 
   document.addEventListener("DOMContentLoaded", function () {
     const nameSvg = document.querySelector("svg.name");
-    const svgPaths = nameSvg.querySelectorAll("path");
 
     window.addEventListener("scroll", function () {
       const scrollPercentage = Math.min(
@@ -141,10 +138,6 @@ import Scene from "./ThreeScene";
 
       const heightScale = 1 + scrollPercentage * 0.5;
       const moveDown = scrollPercentage * 2;
-
-      // svgPaths.forEach((path) => {
-      //   path.style.transform = `scaleY(${heightScale}) translateY(${moveDown}rem)`;
-      // });
 
       nameSvg.style.transform = `scaleY(${heightScale}) translateY(${moveDown}rem)`;
     });

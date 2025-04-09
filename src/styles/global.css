@@ -255,3 +255,32 @@ a.back-home:active {
   --primary: #296de7;
   --secondary: #f0bb78;
 }
+
+
+/* classesss */
+
+/* Add this to your CSS file or in the <style> section */
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it's above everything */
+  transform: translateY(0); /* Initially positioned at the top */
+  transition: transform .4s ease-out; /* Sliding animation */
+}
+
+.loading-screen.slide-out {
+  transform: translateY(-100%); /* Slide out of view */
+}
+
+.loading-message {
+  font-size: 2rem;
+}
