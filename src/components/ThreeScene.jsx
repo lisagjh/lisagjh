@@ -4,8 +4,6 @@ import * as THREE from "three";
 export default function ReflectiveObject() {
   const containerRef = useRef(null);
   const rendererRef = useRef(null);
-  const sceneRef = useRef(null);
-  const cameraRef = useRef(null);
   const meshRef = useRef(null);
 
   useEffect(() => {
@@ -29,9 +27,8 @@ export default function ReflectiveObject() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setClearColor(0x000000, 0);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.8;
     containerRef.current.appendChild(renderer.domElement);
+    rendererRef.current = renderer;
 
     // === Lighting ===
     scene.add(new THREE.AmbientLight(0xffffff, 0.1));
@@ -39,65 +36,122 @@ export default function ReflectiveObject() {
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
 
-    const pointLights = [
-      { color: 0x64c1d8, pos: [3, 3, 3] },
-      { color: 0xeeb384, pos: [-3, 2, -3] },
-      { color: 0x64c1d8, pos: [0, -3, 3] },
-    ];
+    // === Shaders ===
+    const vertexShader = `
+      uniform float uTime;
+      uniform vec3 uRipplePos;
+      varying vec3 vNormal;
+      varying vec3 vViewPosition;
 
-    pointLights.forEach(({ color, pos }) => {
-      const light = new THREE.PointLight(color, 0.8);
-      light.position.set(...pos);
-      scene.add(light);
-    });
-    
+      void main() {
+        float dist = distance(position, uRipplePos);
+        float ripple = sin(dist * 20.0 - uTime * 5.0) * 0.05 / max(dist, 0.001);
+        vec3 newPosition = position + normal * ripple;
 
-    // === Geometry & Material ===
-    const geometry = new THREE.TorusKnotGeometry(1, 0.4, 128, 16);
-    const material = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      metalness: 0.01,
-      roughness: 0.5,
-      envMap: null,
-      envMapIntensity: 0.5,
-      clearcoat: 0.1,
-      clearcoatRoughness: 0.1,
-      transparent: false,
-      transmission: 0.6,
-      thickness: 0.5,
-      ior: 5.8,
-      iridescence: 10.0,
-      iridescenceIOR: 10.5,
-      iridescenceThicknessRange: [100, 400],
-      sheenColor: new THREE.Color(0xaaddff),
-      sheen: 0.1,
-      specularIntensity: 0.1,
-      specularColor: new THREE.Color(0xffffff),
-    });
+        vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
+        vViewPosition = -mvPosition.xyz;
+        vNormal = normalMatrix * normal;
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `;
 
-    // Store refs
-    rendererRef.current = renderer;
-    sceneRef.current = scene;
-    cameraRef.current = camera;
-    meshRef.current = mesh;
+    const fragmentShader = `
+      uniform sampler2D uMatcap;
+      varying vec3 vNormal;
+      varying vec3 vViewPosition;
+
+      void main() {
+        vec3 viewDir = normalize(vViewPosition);
+        vec3 x = normalize(vec3(viewDir.z, 0.0, -viewDir.x));
+        vec3 y = cross(viewDir, x);
+        vec2 uv = vec2(dot(x, vNormal), dot(y, vNormal)) * 0.5 + 0.5;
+
+        vec3 color = texture2D(uMatcap, uv).rgb;
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    // Initialize uniforms first with placeholder for the texture
+    const uniforms = {
+      uTime: { value: 0 },
+      uRipplePos: { value: new THREE.Vector3(0, 0, 0) },
+      uMatcap: { value: null },
+    };
+
+    // Load texture before creating material
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(
+      // Use a relative path or import the texture properly for Astro
+      "/light.png",
+      (matcapTexture) => {
+        // Modern Three.js uses .colorSpace instead of .encoding
+        if (THREE.ColorManagement) {
+          matcapTexture.colorSpace = THREE.SRGBColorSpace;
+        } else {
+          // Fallback for older Three.js versions
+          matcapTexture.encoding = THREE.sRGBEncoding;
+        }
+        
+        uniforms.uMatcap.value = matcapTexture;
+        
+        // Create geometry and material after texture is loaded
+        const geometry = new THREE.TorusKnotGeometry(1, 0.4, 128, 16);
+        const material = new THREE.ShaderMaterial({
+          vertexShader,
+          fragmentShader,
+          uniforms,
+          transparent: true,
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+        meshRef.current = mesh;
+        
+        // Start animation loop after mesh is created
+        animate();
+      },
+      undefined, // onProgress callback not needed
+      (error) => {
+        console.error("Error loading matcap texture:", error);
+      }
+    );
+
+    // === Mouse Interaction ===
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    function onMouseMove(event) {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      if (meshRef.current) {
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObject(meshRef.current);
+
+        if (intersects.length > 0) {
+          uniforms.uRipplePos.value.copy(intersects[0].point);
+        }
+      }
+    }
+
+    window.addEventListener("mousemove", onMouseMove);
 
     // === Animation Loop ===
+    const clock = new THREE.Clock();
     const animate = () => {
+      if (!meshRef.current) return;
+      
       requestAnimationFrame(animate);
-      const time = Date.now() * 0.001;
 
-      if (mesh) {
-        mesh.rotation.x += 0.0015;
-        mesh.rotation.y += 0.0015;
-        material.iridescenceIOR = 1.3 + Math.sin(time) * 0.2;
-      }
+      const elapsedTime = clock.getElapsedTime();
+      uniforms.uTime.value = elapsedTime;
+
+      meshRef.current.rotation.x += 0.0015;
+      meshRef.current.rotation.y += 0.0015;
 
       renderer.render(scene, camera);
     };
-    animate();
 
     // === Resize Handling ===
     const handleResize = () => {
@@ -110,11 +164,15 @@ export default function ReflectiveObject() {
     // === Cleanup ===
     return () => {
       window.removeEventListener("resize", handleResize);
-      containerRef.current?.removeChild(renderer.domElement);
-
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
+      window.removeEventListener("mousemove", onMouseMove);
+      if (containerRef.current && rendererRef.current) {
+        containerRef.current.removeChild(rendererRef.current.domElement);
+      }
+      if (rendererRef.current) rendererRef.current.dispose();
+      if (meshRef.current) {
+        if (meshRef.current.geometry) meshRef.current.geometry.dispose();
+        if (meshRef.current.material) meshRef.current.material.dispose();
+      }
     };
   }, []);
 
