@@ -45,10 +45,10 @@ export default function ReflectiveObject() {
 
       void main() {
         float dist = distance(position, uRipplePos);
-        float ripple = sin(dist * 20.0 - uTime * 5.0) * 0.05 / max(dist, 0.001);
+        float ripple = sin(dist * 20.0 - uTime * 5.0) * 0.05 / max(dist, 0.5);
         vec3 newPosition = position + normal * ripple;
 
-        vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
+        vec4 mvPosition = modelViewMatrix * vec4(newPosition, 0.8);
         vViewPosition = -mvPosition.xyz;
         vNormal = normalMatrix * normal;
 
@@ -83,7 +83,7 @@ export default function ReflectiveObject() {
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(
       // Use a relative path or import the texture properly for Astro
-      "/light.png",
+      "/light.jpg",
       (matcapTexture) => {
         // Modern Three.js uses .colorSpace instead of .encoding
         if (THREE.ColorManagement) {
@@ -92,11 +92,11 @@ export default function ReflectiveObject() {
           // Fallback for older Three.js versions
           matcapTexture.encoding = THREE.sRGBEncoding;
         }
-        
+
         uniforms.uMatcap.value = matcapTexture;
-        
+
         // Create geometry and material after texture is loaded
-        const geometry = new THREE.TorusKnotGeometry(1, 0.4, 128, 16);
+        const geometry = new THREE.TorusKnotGeometry(1, 0.4, 96, 16);
         const material = new THREE.ShaderMaterial({
           vertexShader,
           fragmentShader,
@@ -107,7 +107,7 @@ export default function ReflectiveObject() {
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
         meshRef.current = mesh;
-        
+
         // Start animation loop after mesh is created
         animate();
       },
@@ -141,7 +141,7 @@ export default function ReflectiveObject() {
     const clock = new THREE.Clock();
     const animate = () => {
       if (!meshRef.current) return;
-      
+
       requestAnimationFrame(animate);
 
       const elapsedTime = clock.getElapsedTime();
