@@ -1,10 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 export default function ReflectiveObject() {
   const containerRef = useRef(null);
   const rendererRef = useRef(null);
   const meshRef = useRef(null);
+  const lastInteractionRef = useRef(0);
+  const ripplePosRef = useRef(new THREE.Vector3(0, 0, 0));
+  const prevRipplePosRef = useRef(new THREE.Vector3(0, 0, 0));
+  const isHoveringRef = useRef(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -40,12 +44,17 @@ export default function ReflectiveObject() {
     const vertexShader = `
       uniform float uTime;
       uniform vec3 uRipplePos;
+      uniform float uRippleStrength;
+      uniform float uRippleSpeed;
+      uniform float uRippleSize;
       varying vec3 vNormal;
       varying vec3 vViewPosition;
 
       void main() {
         float dist = distance(position, uRipplePos);
-        float ripple = sin(dist * 20.0 - uTime * 5.0) * 0.05 / max(dist, 0.5);
+        
+        // Reduced amplitude for initial ripple effect
+        float ripple = sin(dist * uRippleSize - uTime * uRippleSpeed) * 0.03 * uRippleStrength / (dist * 0.6 + 0.6);
         vec3 newPosition = position + normal * ripple;
 
         vec4 mvPosition = modelViewMatrix * vec4(newPosition, 0.8);
@@ -72,17 +81,19 @@ export default function ReflectiveObject() {
       }
     `;
 
-    // Initialize uniforms first with placeholder for the texture
+    // Initialize uniforms with significantly reduced values for the initial state
     const uniforms = {
       uTime: { value: 0 },
-      uRipplePos: { value: new THREE.Vector3(0, 0, 0) },
+      uRipplePos: { value: ripplePosRef.current },
       uMatcap: { value: null },
+      uRippleStrength: { value: 0.05 }, // Significantly reduced from 0.15
+      uRippleSpeed: { value: 2.0 }, // Reduced from 3.0 for slower, more subtle movement
+      uRippleSize: { value: 10.0 }, // Reduced from 15.0 for wider, gentler ripples
     };
 
     // Load texture before creating material
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(
-      // Use a relative path or import the texture properly for Astro
       "/light.jpg",
       (matcapTexture) => {
         // Modern Three.js uses .colorSpace instead of .encoding
@@ -111,7 +122,7 @@ export default function ReflectiveObject() {
         // Start animation loop after mesh is created
         animate();
       },
-      undefined, // onProgress callback not needed
+      undefined,
       (error) => {
         console.error("Error loading matcap texture:", error);
       }
@@ -130,12 +141,46 @@ export default function ReflectiveObject() {
         const intersects = raycaster.intersectObject(meshRef.current);
 
         if (intersects.length > 0) {
-          uniforms.uRipplePos.value.copy(intersects[0].point);
+          // Store previous position before updating
+          prevRipplePosRef.current.copy(ripplePosRef.current);
+          ripplePosRef.current.copy(intersects[0].point);
+          lastInteractionRef.current = Date.now();
+          isHoveringRef.current = true;
+
+          // Increase ripple values for interactive state
+          uniforms.uRippleStrength.value = THREE.MathUtils.lerp(
+            uniforms.uRippleStrength.value,
+            0.8,
+            0.1
+          );
+
+          // Speed up ripples during interaction
+          uniforms.uRippleSpeed.value = THREE.MathUtils.lerp(
+            uniforms.uRippleSpeed.value,
+            3.0,
+            0.1
+          );
+
+          // Increase ripple definition during interaction
+          uniforms.uRippleSize.value = THREE.MathUtils.lerp(
+            uniforms.uRippleSize.value,
+            15.0,
+            0.1
+          );
+        } else if (isHoveringRef.current) {
+          // Just left the object
+          isHoveringRef.current = false;
         }
       }
     }
 
+    // Add mouseout handler for the entire window
+    function onMouseOut() {
+      isHoveringRef.current = false;
+    }
+
     window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseout", onMouseOut);
 
     // === Animation Loop ===
     const clock = new THREE.Clock();
@@ -147,6 +192,40 @@ export default function ReflectiveObject() {
       const elapsedTime = clock.getElapsedTime();
       uniforms.uTime.value = elapsedTime;
 
+      // Handle ripple parameters changes
+      const timeSinceInteraction = Date.now() - lastInteractionRef.current;
+
+      if (!isHoveringRef.current && timeSinceInteraction > 500) {
+        // Gradually reduce ripple parameters back to minimal values
+        uniforms.uRippleStrength.value = THREE.MathUtils.lerp(
+          uniforms.uRippleStrength.value,
+          0.05, // Return to minimal ripple
+          0.03
+        );
+
+        uniforms.uRippleSpeed.value = THREE.MathUtils.lerp(
+          uniforms.uRippleSpeed.value,
+          2.0, // Slower in idle state
+          0.03
+        );
+
+        uniforms.uRippleSize.value = THREE.MathUtils.lerp(
+          uniforms.uRippleSize.value,
+          10.0, // Wider, more gentle waves in idle state
+          0.03
+        );
+
+        // Also interpolate the ripple position back to center when not hovering
+        if (timeSinceInteraction > 2000) {
+          const centerPos = new THREE.Vector3(0, 0, 0);
+          ripplePosRef.current.lerp(centerPos, 0.01);
+        }
+      }
+
+      // Update uniform with current ripple position
+      uniforms.uRipplePos.value.copy(ripplePosRef.current);
+
+      // Gentle rotation
       meshRef.current.rotation.x += 0.0015;
       meshRef.current.rotation.y += 0.0015;
 
@@ -165,6 +244,7 @@ export default function ReflectiveObject() {
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseout", onMouseOut);
       if (containerRef.current && rendererRef.current) {
         containerRef.current.removeChild(rendererRef.current.domElement);
       }
