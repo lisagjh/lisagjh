@@ -1,8 +1,8 @@
 # 🙋‍♀️ Hi, i'm Lisa!
 
-💻 Student Frontend Development & Design @ AUAS 
+💻  Graduated from Frontend Development & Design @ AUAS 
 
-📘 Frontend Intern @ Atlantis Digital
+📘 Frontend Developer @ Atlantis Digital
 
 
 
