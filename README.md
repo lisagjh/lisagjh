@@ -2,7 +2,7 @@
 
 💻  Graduated from Frontend Development & Design @ AUAS 
 
-📘 Frontend Developer @ Atlantis Digital
+Looking for a job as frontend developer, where I can combine code and creativity to build accessible websites!
 
 
 
