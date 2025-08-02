@@ -2,8 +2,6 @@
 
 💻  Graduated from Frontend Development & Design @ AUAS 
 
-💼 Looking for a job as frontend developer, where I can be part of a team and contribute to building accessible websites!
-
 
 
 # 💽 Skills
