@@ -3,8 +3,15 @@
 💻  Graduated from Frontend Development & Design @ AUAS 
 
 
+## About Me
 
-# 💽 Skills
+I’m currently working as an Account Manager at Decowraps. Alongside this role, I’m leading a project to bring Decowraps’ Hardware Showroom to clients worldwide, making digital solutions accessible on a global scale.
+
+At the same time, I’m focused on growing as a Frontend Developer. I’m passionate about creating websites that are not only visually engaging but also accessible, performant, and user-friendly. I believe good design goes hand in hand with solid code, and I enjoy bringing both worlds together to deliver meaningful digital experiences.
+
+With a good eye for detail and design, I love experimenting with new technologies and frameworks, while staying committed to best practices in usability, accessibility, and performance. My goal is to grow into a frontend role where I can combine creativity, technical expertise, and user-centered thinking to make an impact. ✨
+
+## 💽 Skills
 
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
@@ -16,18 +23,16 @@
 
 
 
-# 👩‍💻 About Me
+## 🛠️ Projects
 
-📚 I enjoy reading a good book - especially a good fantasy, mystery and the occasional scifi!
-
-👩‍🔬 I love to experiment with code and exploring unfamiliar technologies and tools
-
-🦋 I'm passionate about creating accessible, performant, responsive and user friendly websites
+- Blue Estate Agency Website – A luxury vacation rental platform prototype built in SvelteKit, focusing on UX, performance, and accessibility.
+- [Dutch Digital Agencies](https://dutchdigitalagencies.vercel.app) – A redesigned version of their website built in SvelteKit with a small team. Focus on UX, performance, and accessibility.
 
 
-
-## 🔍 Find me ..
+### 🔍 Find me ..
 
 🌐 [lisavanderhoorn.nl](https://lisavanderhoorn.nl/)
 
 💼 [LinkedIn](www.linkedin.com/in/lisavanderhoorn)
+
+📨 or send me an email: lisagjhoorn@outlook.com
