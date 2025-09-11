@@ -1,13 +1,13 @@
-# 🙋‍♀️ Hi, i'm Lisa!
+# Hi, i'm Lisa!
 
 💻  Graduated from Frontend Development & Design @ AUAS 
 
 
 ## About Me
 
-I’m currently working as an Account Manager at Decowraps. Alongside this role, I’m leading a project to bring Decowraps’ Hardware Showroom to clients worldwide, making digital solutions accessible on a global scale.
+I’m currently working as an Account Manager at Decowraps. Alongside this role, I’m working on a project to bring Decowraps’ Hardware Showroom to clients worldwide, making digital solutions accessible on a global scale.
 
-At the same time, I’m focused on growing as a Frontend Developer. I’m passionate about creating websites that are not only visually engaging but also accessible, performant, and user-friendly. I believe good design goes hand in hand with solid code and accesibility. I enjoy combining these to deliver meaningful digital experiences.
+At the same time, I’m focused on growing as a Frontend Developer. I’m passionate about creating websites that are not only visually engaging but also accessible, performant, and user-friendly. 
 
 
 ## 💽 Skills
