@@ -5,7 +5,7 @@
 
 ## About Me
 
-I’m currently working as an Account Manager at Decowraps. Alongside this role, I’m working on a project to bring Decowraps’ Hardware Showroom to clients worldwide, making digital solutions accessible on a global scale.
+I’m currently working as Junior Project Lead at Decowraps. Alongside my responsibilities as project lead, I’m working on a project to bring Decowraps’ Hardware Showroom to clients worldwide.
 
 At the same time, I’m focused on growing as a Frontend Developer. I’m passionate about creating websites that are not only visually engaging but also accessible, performant, and user-friendly. 
 
