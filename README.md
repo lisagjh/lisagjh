@@ -29,6 +29,7 @@ At the same time, I’m focused on growing as a Frontend Developer. I’m passio
 
 - [Blue Estate Agency Website](https://lisa.blue-estate.wpinaday.co/fr) – A luxury vacation rental platform prototype built in SvelteKit, focusing on UX, performance, and accessibility.
 - [Dutch Digital Agencies](https://dutchdigitalagencies.vercel.app) – A redesigned version of their website built in SvelteKit with a small team. Focus on UX, performance, and accessibility.
+- [Sportkaart, Sport in Haarlem](https://sportinhaarlem.nl/sportkaart/?tab=sportlocaties&page=1) - During my internship at Atlantis Digital I improved the accessibility, used PHP and JS to neatly implement a second data source, improved filter capabilties, and created the search preview. I also created a new design to improve the look with the two buttons at the top, but didn't get to implement this due to lack of time sadly.
 
 
 
