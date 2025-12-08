@@ -24,7 +24,7 @@ At the same time, I’m focused on growing as a Frontend Developer. I’m passio
 
 ## 🛠️ Projects
 
-- Blue Estate Agency Website – A luxury vacation rental platform prototype built in SvelteKit, focusing on UX, performance, and accessibility.
+- [Blue Estate Agency Website](https://lisa.blue-estate.wpinaday.co/fr) – A luxury vacation rental platform prototype built in SvelteKit, focusing on UX, performance, and accessibility.
 - [Dutch Digital Agencies](https://dutchdigitalagencies.vercel.app) – A redesigned version of their website built in SvelteKit with a small team. Focus on UX, performance, and accessibility.
 
 
